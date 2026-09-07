@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#071f1b">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="BOSAN">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-192.png">
+<title>BOSAN Residence</title>
+<style>
+:root{--bg:#071f1b;--bg2:#0d332b;--green:#0f8a68;--green2:#0c765a;--card:#fff;--muted:#687671;--line:#e5ece9;--red:#d95555;--orange:#ee9a3e}
+*{box-sizing:border-box}body{margin:0;background:#dbe5e1;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;color:#17221f}
+.app{max-width:430px;margin:auto;min-height:100vh;background:linear-gradient(180deg,var(--bg),var(--bg2));padding-bottom:86px}
+header{padding:16px 16px 12px;color:#fff;position:sticky;top:0;background:rgba(7,31,27,.97);z-index:9}
+.brand{text-align:center;font:32px Georgia,serif;letter-spacing:2px}.sub{text-align:center;font-size:9px;letter-spacing:5px;opacity:.7}
+.main{padding:14px}.screen{display:none}.screen.active{display:block}
+.card{background:#fff;border-radius:18px;padding:14px;margin-bottom:12px;box-shadow:0 8px 24px rgba(0,0,0,.13)}
+.title{font-size:18px;font-weight:800;margin-bottom:10px}.muted{font-size:13px;color:var(--muted)}
+.row{display:flex;align-items:center;gap:10px}.space{justify-content:space-between}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.mini{padding:11px;border:1px solid var(--line);background:#f7faf9;border-radius:14px}.mini span{display:block;color:var(--muted);font-size:12px}.mini b{font-size:18px}
+button{border:0;border-radius:12px;padding:12px;font-weight:800;font-size:14px}.primary{width:100%;background:var(--green);color:#fff}.secondary{background:#edf4f1;color:#17483b}.danger{background:#ffe7e7;color:#a33a3a}
+input,select{width:100%;padding:12px;border:1px solid #dbe5e1;border-radius:12px;background:#fff;font:inherit}
+label{display:block;font-size:12px;font-weight:700;color:#5f6c68;margin:10px 0 5px}
+.booking{padding:11px 0;border-top:1px solid var(--line)}.booking:first-child{border-top:0}
+.pill{display:inline-block;padding:5px 9px;border-radius:999px;font-size:12px;font-weight:800}.ok{background:#daf5e9;color:#08764f}.warn{background:#fff0df;color:#ad6113}.bad{background:#ffe8e8;color:#a43a3a}
+.zonebtn{padding:12px;border:1px solid var(--line);border-radius:14px;background:#f8faf9;text-align:left}.zonebtn b{display:block;margin-bottom:4px}
+.resources{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.resource{padding:10px 4px;border-radius:12px;text-align:center;font-size:12px;font-weight:800}.free{background:#daf5e9;color:#08764f}.busy{background:#ffe6dc;color:#a64b31}
+.nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:min(430px,100%);background:#08261f;display:grid;grid-template-columns:repeat(5,1fr);padding:8px 5px calc(8px + env(safe-area-inset-bottom));z-index:12}
+.nav button{background:none;color:#cfe0da;font-size:11px;padding:5px}.nav button.active{color:#4ee0ac}.nav .plus{width:46px;height:46px;border-radius:50%;background:var(--green);font-size:27px;color:#fff;margin:-20px auto 0}
+.toast{position:fixed;bottom:98px;left:50%;transform:translateX(-50%);background:#173b33;color:#fff;padding:10px 14px;border-radius:12px;display:none;z-index:20}
+</style>
+</head>
+<body>
+<div class="app">
+<header>
+  <div class="brand">BOSAN</div><div class="sub">RESIDENCE</div>
+</header>
+<main class="main">
+
+<section id="home" class="screen active">
+  <div class="card">
+    <div class="row space"><div class="title" style="margin:0">Сьогодні</div><span class="pill ok">Працює</span></div>
+    <div class="grid2" style="margin-top:12px">
+      <div class="mini"><span>Броней</span><b id="todayBookings">0</b></div>
+      <div class="mini"><span>Виручка</span><b id="todayRevenue">0 грн</b></div>
+      <div class="mini"><span>Передоплати</span><b id="todayPrepay">0 грн</b></div>
+      <div class="mini"><span>Борги</span><b id="todayDebt">0 грн</b></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="title">Комплекс</div>
+    <div class="grid2">
+      <button class="zonebtn" onclick="openZone('pool1')"><b>🏊 Басейн №1</b><span class="muted">24 шезлонги<br>3 бунгало + тераса</span></button>
+      <button class="zonebtn" onclick="openZone('pool2')"><b>🏊 Басейн №2</b><span class="muted">40 шезлонгів</span></button>
+      <button class="zonebtn" onclick="openZone('houses')"><b>🏡 Будиночки</b><span class="muted">5 окремих будиночків</span></button>
+      <button class="zonebtn" onclick="openZone('tubs')"><b>♨️ Чани</b><span class="muted">3 біля будиночків</span></button>
+    </div>
+    <button class="zonebtn" style="width:100%;margin-top:10px" onclick="openZone('sauna')"><b>🔥 Баня + чан</b><span class="muted">Один спільний комплекс · погодинно</span></button>
+  </div>
+</section>
+
+<section id="zone" class="screen">
+  <div class="card">
+    <div class="row space"><div><div class="title" id="zoneTitle">Зона</div><div class="muted" id="zoneDateText"></div></div><button class="secondary" onclick="go('home')">Назад</button></div>
+    <label>Дата</label><input id="zoneDate" type="date" onchange="renderZone()">
+  </div>
+  <div class="card"><div id="resourceGrid" class="resources"></div></div>
+</section>
+
+<section id="bookings" class="screen">
+  <div class="card">
+    <div class="row space"><div class="title" style="margin:0">Бронювання</div><button class="secondary" onclick="go('new')">+ Додати</button></div>
+    <div id="bookingList"></div>
+  </div>
+</section>
+
+<section id="new" class="screen">
+  <div class="card">
+    <div class="title">Нова бронь</div>
+    <label>Об'єкт</label><select id="resourceSelect"></select>
+    <div class="grid2"><div><label>Дата</label><input id="date" type="date"></div><div><label>Початок</label><input id="start" type="time" value="12:00"></div></div>
+    <div class="grid2"><div><label>Кінець</label><input id="end" type="time" value="18:00"></div><div><label>Гостей</label><input id="guests" type="number" value="2"></div></div>
+    <label>Гість</label><input id="guest" placeholder="ПІБ">
+    <label>Телефон</label><input id="phone" placeholder="+380...">
+    <div class="grid2"><div><label>Сума</label><input id="amount" type="number" value="0"></div><div><label>Передоплата</label><input id="prepay" type="number" value="0"></div></div>
+    <label>Додаткові послуги</label><input id="extras" placeholder="Віники, халати, тапочки...">
+    <div id="conflictBox" class="muted" style="margin:10px 0"></div>
+    <button class="primary" onclick="saveBooking()">Зберегти бронь</button>
+  </div>
+</section>
+
+<section id="cash" class="screen">
+  <div class="card">
+    <div class="title">Каса</div>
+    <div class="grid2">
+      <div class="mini"><span>Виручка всього</span><b id="allRevenue">0 грн</b></div>
+      <div class="mini"><span>Передоплати</span><b id="allPrepay">0 грн</b></div>
+      <div class="mini"><span>До доплати</span><b id="allDebt">0 грн</b></div>
+      <div class="mini"><span>Броней</span><b id="allCount">0</b></div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="title">Налаштування</div>
+    <div class="booking"><b>Режим</b><div class="muted">Зараз дані зберігаються на цьому телефоні. Після підключення хмари — синхронізуватимуться між усіма телефонами BOSAN.</div></div>
+    <button class="danger" style="width:100%" onclick="clearAll()">Очистити локальні дані</button>
+  </div>
+</section>
+
+</main>
+<nav class="nav">
+  <button data-screen="home" class="active">⌂<br>Головна</button>
+  <button data-screen="bookings">▣<br>Броні</button>
+  <button data-screen="new" class="plus">＋</button>
+  <button data-screen="cash">◉<br>Каса</button>
+  <button data-screen="zone">▦<br>Об'єкти</button>
+</nav>
+</div>
+<div id="toast" class="toast"></div>
+
+<script>
+const RESOURCES=[];
+for(let i=1;i<=24;i++)RESOURCES.push({id:`pool1-lounger-${i}`,zone:'pool1',name:`Шезлонг №${i}`});
+for(let i=1;i<=3;i++)RESOURCES.push({id:`pool1-bungalow-${i}`,zone:'pool1',name:`Бунгало №${i}`});
+RESOURCES.push({id:'pool1-terrace',zone:'pool1',name:'Тераса · 12'});
+for(let i=1;i<=40;i++)RESOURCES.push({id:`pool2-lounger-${i}`,zone:'pool2',name:`Шезлонг №${i}`});
+for(let i=1;i<=5;i++)RESOURCES.push({id:`house-${i}`,zone:'houses',name:`Будиночок №${i}`});
+for(let i=1;i<=3;i++)RESOURCES.push({id:`tub-${i}`,zone:'tubs',name:`Чан №${i}`});
+RESOURCES.push({id:'sauna',zone:'sauna',name:'Баня + чан'});
+const ZN={pool1:'Басейн №1',pool2:'Басейн №2',houses:'Будиночки',tubs:'Чани біля будиночків',sauna:'Баня + чан'};
+
+let currentZone='pool1';
+let bookings=JSON.parse(localStorage.getItem('bosanPwaBookings')||'[]');
+const today=new Date().toISOString().slice(0,10);
+date.value=today; zoneDate.value=today;
+
+function go(id){
+ document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+ document.getElementById(id).classList.add('active');
+ document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('active',b.dataset.screen===id));
+ if(id==='bookings')renderBookings();
+ if(id==='new')fillResources();
+ if(id==='cash')renderMoney();
+ if(id==='zone')renderZone();
+}
+document.querySelectorAll('.nav button').forEach(b=>b.onclick=()=>go(b.dataset.screen));
+
+function overlaps(a,b,c,d){return a<d && c<b}
+function conflict(r,dt,st,en){return bookings.find(x=>x.resource_id===r&&x.date===dt&&overlaps(st,en,x.start,x.end))}
+function fillResources(){
+ resourceSelect.innerHTML=RESOURCES.map(r=>`<option value="${r.id}">${ZN[r.zone]} · ${r.name}</option>`).join('');
+}
+function openZone(z){currentZone=z;zoneTitle.textContent=ZN[z];zoneDate.value=today;renderZone();go('zone')}
+function renderZone(){
+ zoneTitle.textContent=ZN[currentZone];zoneDateText.textContent=zoneDate.value;
+ resourceGrid.innerHTML='';
+ RESOURCES.filter(r=>r.zone===currentZone).forEach(r=>{
+   const busy=bookings.some(b=>b.resource_id===r.id&&b.date===zoneDate.value);
+   resourceGrid.innerHTML+=`<div class="resource ${busy?'busy':'free'}" onclick="quickBook('${r.id}')">${r.name}</div>`;
+ });
+}
+function quickBook(id){
+ fillResources();resourceSelect.value=id;date.value=zoneDate.value;go('new');
+}
+function saveBooking(){
+ if(start.value>=end.value){toast('Перевірте час');return}
+ const c=conflict(resourceSelect.value,date.value,start.value,end.value);
+ if(c){conflictBox.innerHTML=`<span class="pill bad">Зайнято</span> Уже є бронь ${c.start}–${c.end}`;toast('Подвійне бронювання заблоковано');return}
+ const r=RESOURCES.find(x=>x.id===resourceSelect.value);
+ const b={id:crypto.randomUUID(),resource_id:r.id,resource_name:r.name,zone:r.zone,date:date.value,start:start.value,end:end.value,guest:guest.value||'Гість',phone:phone.value,guests:+guests.value||1,amount:+amount.value||0,prepay:+prepay.value||0,extras:extras.value,status:'booked'};
+ bookings.push(b);localStorage.setItem('bosanPwaBookings',JSON.stringify(bookings));toast('Бронь збережено');renderHome();go('bookings');
+}
+function renderBookings(){
+ bookingList.innerHTML=bookings.length?'':'<div class="muted">Поки немає бронювань.</div>';
+ bookings.slice().sort((a,b)=>(a.date+a.start).localeCompare(b.date+b.start)).forEach(b=>{
+   bookingList.innerHTML+=`<div class="booking"><div class="row space"><b>${b.resource_name}</b><span class="pill warn">${b.date}</span></div><div>${b.start}–${b.end} · ${b.guest}</div><div class="muted">${ZN[b.zone]} · ${b.guests} гост. · ${b.amount.toLocaleString('uk-UA')} грн${b.extras?' · '+b.extras:''}</div></div>`;
+ });
+}
+function totals(filterDate=null){
+ let arr=filterDate?bookings.filter(b=>b.date===filterDate):bookings;
+ let rev=arr.reduce((s,b)=>s+b.amount,0), pre=arr.reduce((s,b)=>s+b.prepay,0);
+ return {count:arr.length,rev,pre,debt:rev-pre};
+}
+function renderHome(){
+ const t=totals(today);todayBookings.textContent=t.count;todayRevenue.textContent=t.rev.toLocaleString('uk-UA')+' грн';todayPrepay.textContent=t.pre.toLocaleString('uk-UA')+' грн';todayDebt.textContent=t.debt.toLocaleString('uk-UA')+' грн';
+}
+function renderMoney(){
+ const t=totals();allRevenue.textContent=t.rev.toLocaleString('uk-UA')+' грн';allPrepay.textContent=t.pre.toLocaleString('uk-UA')+' грн';allDebt.textContent=t.debt.toLocaleString('uk-UA')+' грн';allCount.textContent=t.count;
+}
+function clearAll(){if(confirm('Очистити всі локальні бронювання BOSAN?')){bookings=[];localStorage.removeItem('bosanPwaBookings');renderHome();renderBookings();renderMoney();toast('Дані очищено')}}
+function toast(t){const x=document.getElementById('toast');x.textContent=t;x.style.display='block';setTimeout(()=>x.style.display='none',1800)}
+fillResources();renderHome();renderBookings();renderMoney();renderZone();
+if('serviceWorker' in navigator){navigator.serviceWorker.register('./service-worker.js').catch(()=>{})}
+</script>
+</body>
+</html>
