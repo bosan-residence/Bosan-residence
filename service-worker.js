@@ -1,5 +1,5 @@
-const CACHE='bosan-pwa-v6';
-const ASSETS=['/login.html?pwa=2','/app-gate.html','/index_backup.html','/manifest.json','/icon-192.png','/icon-512.png'];
+const CACHE='bosan-pwa-v7';
+const ASSETS=['/login.html?pwa=3','/app-gate.html','/app.html','/manifest.json','/icon-192.png','/icon-512.png'];
 self.addEventListener('install',event=>{event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(ASSETS)).then(()=>self.skipWaiting()))});
 self.addEventListener('activate',event=>{event.waitUntil(Promise.all([caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==CACHE).map(k=>caches.delete(k)))),self.clients.claim()]))});
-self.addEventListener('fetch',event=>{if(event.request.method!=='GET')return;event.respondWith(fetch(event.request,{cache:'no-store'}).then(response=>{const copy=response.clone();caches.open(CACHE).then(cache=>cache.put(event.request,copy)).catch(()=>{});return response}).catch(()=>caches.match(event.request).then(cached=>cached||caches.match('/login.html?pwa=2'))))});
+self.addEventListener('fetch',event=>{if(event.request.method!=='GET')return;const u=new URL(event.request.url);if(event.request.mode==='navigate'&&u.origin===location.origin&&u.pathname.endsWith('/index_backup.html')){event.respondWith(Response.redirect('/login.html?pwa=3',302));return}event.respondWith(fetch(event.request,{cache:'no-store'}).then(response=>{const copy=response.clone();caches.open(CACHE).then(cache=>cache.put(event.request,copy)).catch(()=>{});return response}).catch(()=>caches.match(event.request).then(cached=>cached||caches.match('/login.html?pwa=3'))))});
