@@ -4,7 +4,7 @@
   "short_name": "BOSAN",
   "description": "BOSAN Residence management system",
   "lang": "uk",
-  "start_url": "./index.html",
+  "start_url": "./login.html",
   "scope": "./",
   "display": "standalone",
   "background_color": "#f4f2ec",
