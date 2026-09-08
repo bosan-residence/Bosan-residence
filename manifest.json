@@ -1,15 +1,16 @@
 {
-  "id": "/bosan-system-v5",
-  "name": "BOSAN SYSTEM",
+  "id": "/bosan-residence-final-v7",
+  "name": "BOSAN RESIDENCE",
   "short_name": "BOSAN",
   "description": "BOSAN Residence management system",
   "lang": "uk",
-  "start_url": "/app.html?v=5",
+  "start_url": "/app.html?final=7",
   "scope": "/",
   "display": "standalone",
-  "background_color": "#4d5438",
-  "theme_color": "#4d5438",
+  "background_color": "#123f31",
+  "theme_color": "#123f31",
   "icons": [
-    {"src":"/bosan-icon.svg?v=5","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}
+    {"src":"/IMG_9079.png?final=7","sizes":"1024x1024","type":"image/png","purpose":"any"},
+    {"src":"/IMG_9079.png?final=7","sizes":"1024x1024","type":"image/png","purpose":"maskable"}
   ]
 }
