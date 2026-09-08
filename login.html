@@ -13,47 +13,12 @@
 <body>
 <div class="app">
 <header class="top"><div class="brand"><div><b>BOSAN</b><small> RESIDENCE</small></div><div class="pill">ВХІД</div></div></header>
-<main>
-<section class="card">
-<div class="title">Вхід у BOSAN SYSTEM</div>
-<p class="sub">Введіть e-mail і пароль. Без одноразових посилань.</p>
-<input id="loginEmail" type="email" autocomplete="email" placeholder="E-mail">
-<input id="loginPassword" type="password" autocomplete="current-password" placeholder="Пароль">
-<button id="loginBtn" class="btn">Увійти</button>
-<div id="loginMsg" class="msg"></div>
-</section>
-</main>
+<main><section class="card"><div class="title">Вхід у BOSAN SYSTEM</div><p class="sub">Введіть e-mail і пароль. Без одноразових посилань.</p><input id="loginEmail" type="email" autocomplete="email" placeholder="E-mail"><input id="loginPassword" type="password" autocomplete="current-password" placeholder="Пароль"><button id="loginBtn" class="btn">Увійти</button><div id="loginMsg" class="msg"></div></section></main>
 </div>
 <script>
-const SUPABASE_URL='https://eonflhmttzpbqzzqkhon.supabase.co';
-const SUPABASE_KEY='sb_publishable_XKHT-jFqx5nn4dfMODy0Ew_Ndmje_0P';
-const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
-
-function openApp(){ location.replace('/index.html?auth=1'); }
-
-async function goIfSignedIn(){
- const {data:{session}}=await sb.auth.getSession();
- if(session) openApp();
-}
-
-async function signIn(){
- const email=loginEmail.value.trim();
- const password=loginPassword.value;
- loginMsg.className='msg';
- if(!email||!password){loginMsg.textContent='Введіть e-mail і пароль.';loginMsg.classList.add('error');return}
- loginBtn.disabled=true; loginBtn.textContent='Входимо…'; loginMsg.textContent='';
- const {error}=await sb.auth.signInWithPassword({email,password});
- if(error){
-   loginMsg.textContent='Не вдалося увійти. Перевірте e-mail і пароль.';
-   loginMsg.classList.add('error');
-   loginBtn.disabled=false; loginBtn.textContent='Увійти';
-   return;
- }
- openApp();
-}
-loginBtn.addEventListener('click',signIn);
-loginPassword.addEventListener('keydown',e=>{if(e.key==='Enter')signIn()});
-goIfSignedIn();
-</script>
-</body>
-</html>
+const sb=window.supabase.createClient('https://eonflhmttzpbqzzqkhon.supabase.co','sb_publishable_XKHT-jFqx5nn4dfMODy0Ew_Ndmje_0P');
+function openApp(){location.replace('./app-gate.html?v=20260908-2218')}
+async function goIfSignedIn(){const {data:{session}}=await sb.auth.getSession();if(session)openApp()}
+async function signIn(){const email=loginEmail.value.trim(),password=loginPassword.value;loginMsg.className='msg';if(!email||!password){loginMsg.textContent='Введіть e-mail і пароль.';loginMsg.classList.add('error');return}loginBtn.disabled=true;loginBtn.textContent='Входимо…';loginMsg.textContent='';const {error}=await sb.auth.signInWithPassword({email,password});if(error){loginMsg.textContent='Не вдалося увійти. Перевірте e-mail і пароль.';loginMsg.classList.add('error');loginBtn.disabled=false;loginBtn.textContent='Увійти';return}openApp()}
+loginBtn.addEventListener('click',signIn);loginPassword.addEventListener('keydown',e=>{if(e.key==='Enter')signIn()});goIfSignedIn();
+</script></body></html>
