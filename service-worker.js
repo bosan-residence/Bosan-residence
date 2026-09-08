@@ -1,26 +1,5 @@
-const CACHE='bosan-pwa-v5';
-const ASSETS=['./','./index.html','./index_backup.html','./manifest.json','./icon-192.png','./icon-512.png'];
-
-self.addEventListener('install',event=>{
-  event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(ASSETS)).then(()=>self.skipWaiting()));
-});
-
-self.addEventListener('activate',event=>{
-  event.waitUntil(Promise.all([
-    caches.keys().then(keys=>Promise.all(keys.filter(key=>key!==CACHE).map(key=>caches.delete(key)))),
-    self.clients.claim()
-  ]));
-});
-
-self.addEventListener('fetch',event=>{
-  if(event.request.method!=='GET') return;
-  event.respondWith(
-    fetch(event.request,{cache:'no-store'})
-      .then(response=>{
-        const copy=response.clone();
-        caches.open(CACHE).then(cache=>cache.put(event.request,copy)).catch(()=>{});
-        return response;
-      })
-      .catch(()=>caches.match(event.request).then(cached=>cached||caches.match('./index.html')))
-  );
-});
+const CACHE='bosan-pwa-v6';
+const ASSETS=['/login.html?pwa=2','/app-gate.html','/index_backup.html','/manifest.json','/icon-192.png','/icon-512.png'];
+self.addEventListener('install',event=>{event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(ASSETS)).then(()=>self.skipWaiting()))});
+self.addEventListener('activate',event=>{event.waitUntil(Promise.all([caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==CACHE).map(k=>caches.delete(k)))),self.clients.claim()]))});
+self.addEventListener('fetch',event=>{if(event.request.method!=='GET')return;event.respondWith(fetch(event.request,{cache:'no-store'}).then(response=>{const copy=response.clone();caches.open(CACHE).then(cache=>cache.put(event.request,copy)).catch(()=>{});return response}).catch(()=>caches.match(event.request).then(cached=>cached||caches.match('/login.html?pwa=2'))))});
