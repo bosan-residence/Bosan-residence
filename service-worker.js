@@ -1,4 +1,4 @@
-const CACHE='bosan-pwa-v4';
+const CACHE='bosan-pwa-v5';
 const ASSETS=['./','./index.html','./index_backup.html','./manifest.json','./icon-192.png','./icon-512.png'];
 
 self.addEventListener('install',event=>{
