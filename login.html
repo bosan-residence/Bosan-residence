@@ -29,9 +29,11 @@ const SUPABASE_URL='https://eonflhmttzpbqzzqkhon.supabase.co';
 const SUPABASE_KEY='sb_publishable_XKHT-jFqx5nn4dfMODy0Ew_Ndmje_0P';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
+function openApp(){ location.replace('/index.html?auth=1'); }
+
 async function goIfSignedIn(){
  const {data:{session}}=await sb.auth.getSession();
- if(session) location.replace('/index.html');
+ if(session) openApp();
 }
 
 async function signIn(){
@@ -47,7 +49,7 @@ async function signIn(){
    loginBtn.disabled=false; loginBtn.textContent='Увійти';
    return;
  }
- location.replace('/index.html');
+ openApp();
 }
 loginBtn.addEventListener('click',signIn);
 loginPassword.addEventListener('keydown',e=>{if(e.key==='Enter')signIn()});
