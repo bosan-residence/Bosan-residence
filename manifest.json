@@ -1,20 +1,26 @@
 {
-  "name": "BOSAN Residence",
+  "id": "./",
+  "name": "BOSAN SYSTEM",
   "short_name": "BOSAN",
+  "description": "BOSAN Residence management system",
+  "lang": "uk",
   "start_url": "./index.html",
+  "scope": "./",
   "display": "standalone",
-  "background_color": "#071f1b",
-  "theme_color": "#071f1b",
+  "background_color": "#f4f2ec",
+  "theme_color": "#123f31",
   "icons": [
     {
-      "src": "icon-192.png",
+      "src": "./icon-192.png",
       "sizes": "192x192",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any"
     },
     {
-      "src": "icon-512.png",
+      "src": "./icon-512.png",
       "sizes": "512x512",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any"
     }
   ]
 }
